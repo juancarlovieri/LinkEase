@@ -2,7 +2,8 @@ const Order = require(`./Order`);
 
 class DexAccount {
   static lastId = 0;
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.accounts = new Map();
     this.id = DexAccount.lastId++;
   }
