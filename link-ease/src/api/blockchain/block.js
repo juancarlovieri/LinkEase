@@ -15,7 +15,7 @@ export default class Block {
     // const hash = crypto.createHash('sha256');
     // hash.update(this.index + this.previousHash + this.timestamp + this.data.stringify()).end();
     // return hash.digest('hex');
-    return crypto.SHA256(this.index + this.previousHash + this.timestamp + this.data.stringify()).toString();
+    return crypto.SHA256(this.index + this.previousHash + this.data.stringify()).toString();
   }
 }
 

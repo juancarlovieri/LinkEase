@@ -9,7 +9,8 @@ class Genesis {
 
 export default class Blockchain {
   static lastId = 0;
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.chain = [this.createGenesisBlock()];
     this.id = Blockchain.lastId++;
   }

@@ -23,6 +23,10 @@ class DexAccount {
   stringify() {
     return this.id;
   }
+
+  backup() {
+    return JSON.stringify({name: this.name, id: this.id, accounts: this.accounts.map(a => a.backup())});
+  }
 }
 
 module.exports = DexAccount;

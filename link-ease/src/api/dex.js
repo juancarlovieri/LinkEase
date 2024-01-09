@@ -17,7 +17,6 @@ export default class Dex {
 
   pushOrderOnly(order) {
     this.blockchain.processTransaction(order.clone());
-    this.orders.push(order.clone());
   }
 
   completeOrders(l, r, source, dest, rate) {
@@ -32,7 +31,6 @@ export default class Dex {
         this.orders[i].unlock();
       }
     }
-
 
     let lastA = (orderA.at(-1)).clone();
     let lastB = (orderB.at(-1)).clone();
@@ -72,7 +70,7 @@ export default class Dex {
 
   matchOrders() {
     const market = new Map();
-    for (var i = 0; i < this.orders.length; ++i) {
+    for (let i = 0; i < this.orders.length; ++i) {
       const order = this.orders[i];
       const source = order.blockChain1, dest = order.blockChain2;
       const rate = this.simplify(order.amount1, order.amount2);
@@ -84,9 +82,11 @@ export default class Dex {
 
       const onw = market.get(this.calculateHash(source, dest, rate));
       const opp = this.calc(this.invert(rate), market.get(this.calculateHash(dest, source, this.invert(rate))));
-      console.log(onw, opp);
+      console.log(onw, opp, rate, this.calculateHash(source, dest, rate));
       if (onw == opp) {
         this.completeOrders(0, i, source, dest, rate);
+        market.delete(this.calculateHash(source, dest, rate));
+        market.delete(this.calculateHash(dest, source, this.invert(rate)));
       }
     }
     const newOrders = [];
@@ -102,7 +102,7 @@ export default class Dex {
     // const hash = crypto.createHash('sha256');
     // hash.update(source.stringify() + dest.stringify() + this.rate).end();
     // return hash.digest('hex');
-    return crypto.SHA256(source.stringify() + dest.stringify() + this.rate).toString();
+    return crypto.SHA256(source.stringify() + dest.stringify() + JSON.stringify(rate)).toString();
   }
 
   simplify(a, b) {
