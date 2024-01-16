@@ -12,6 +12,7 @@ const OrdersQueue = ({ orders }) => {
               <h2>Order no. {order.id}</h2>
               <p> Selling {order.amount1} {order.blockchain1.name}</p>
               <p> Buying {order.amount2} {order.blockchain2.name}</p>
+              <p> Gas Fee: {order.fee} </p>
             </div>)
           ))
         )}

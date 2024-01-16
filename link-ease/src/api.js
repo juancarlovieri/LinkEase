@@ -8,7 +8,7 @@ const DexAccount = require('./api/account');
 let orders = [];
 const dex = new Dex();
 
-const chains = [new Blockchain(`IndoCoin`), new Blockchain(`Slaycoin`), new Blockchain(`EusoffCoin`), dex.blockchain];
+const chains = [dex.blockchain, new Blockchain(`IndoCoin`), new Blockchain(`Slaycoin`), new Blockchain(`EusoffCoin`)];
 
 
 const users = [new DexAccount(`Ahmad`), new DexAccount(`Bob`), new DexAccount(`Oreo`), new DexAccount(`xaea12`)];
@@ -24,7 +24,7 @@ if (sessionStorage.getItem(`orders`)) {
   orders = JSON.parse(sessionStorage.getItem(`orders`));
   console.log(orders);
   for (const order of orders) {
-    exchangeOnly(users[order.user], chains[order.blockchain1], order.amount1, chains[order.blockchain2], order.amount2);
+    exchangeOnly(users[order.user], chains[order.blockchain1], order.amount1, chains[order.blockchain2], order.amount2, order.fee);
   }
   matching = false;
 } else matching = false;
@@ -123,20 +123,21 @@ function getBlockchains() {
   return ret;
 }
 
-function exchange(user, chain1, amount1, chain2, amount2) {
-  const order = user.makeOrder(chain1, amount1, chain2, amount2);
-  order.lock();
+function exchange(user, chain1, amount1, chain2, amount2, fee) {
+  const order = user.makeOrder(chain1, amount1, chain2, amount2, fee);
+  order.lock(dex);
+  console.log(order);
 
   dex.pushOrder(order);
   // console.log(({user: users.indexOf(user), blockchain1: chains.indexOf(chain1), blockchain2: chains.indexOf(chain2), amount1, amount2}));
-  orders.push({id: order.id, user: users.indexOf(user), blockchain1: chains.indexOf(chain1), blockchain2: chains.indexOf(chain2), amount1, amount2});
+  orders.push({id: order.id, user: users.indexOf(user), blockchain1: chains.indexOf(chain1), blockchain2: chains.indexOf(chain2), amount1, amount2, fee});
   console.log(JSON.stringify(orders));
   sessionStorage.setItem(`orders`, JSON.stringify(orders));
 }
 
-function exchangeOnly(user, chain1, amount1, chain2, amount2) {
-  const order = user.makeOrder(chain1, amount1, chain2, amount2);
-  order.lock();
+function exchangeOnly(user, chain1, amount1, chain2, amount2, fee) {
+  const order = user.makeOrder(chain1, amount1, chain2, amount2, fee);
+  order.lock(dex);
 
   dex.pushOrder(order);
 }
@@ -151,7 +152,7 @@ function getChains() {
 
 function getOrders() {
   while (matching);
-  return dex.orders.map(order => ({id: order.id, owner: order.owner, blockchain1: order.blockChain1, amount1: order.amount1, blockchain2: order.blockChain2, amount2: order.amount2}));
+  return dex.orders.map(order => ({id: order.id, owner: order.owner, blockchain1: order.blockChain1, amount1: order.amount1, blockchain2: order.blockChain2, amount2: order.amount2, fee: order.fee}));
 }
 
 export {getDexChain, getBlockchains, getUsers, getChains, exchange, getOrders};

@@ -16,8 +16,8 @@ class DexAccount {
     return this.accounts.get(blockChain);
   }
 
-  makeOrder(blockChain1, value1, blockChain2, value2) {
-    return new Order(this, blockChain1, value1, blockChain2, value2);
+  makeOrder(blockChain1, value1, blockChain2, value2, fee) {
+    return new Order(this, blockChain1, value1, blockChain2, value2, fee);
   }
 
   stringify() {

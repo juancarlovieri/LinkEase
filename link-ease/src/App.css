@@ -224,3 +224,33 @@ a:hover {
   text-align: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+.gas-bid {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.gas-bid label {
+  flex-shrink: 0; /* Prevent the label from shrinking */
+  font-size: 15px;
+}
+
+.gas-bid input, .block-select input {
+  flex-grow: 1; /* Allow input to grow and fill available space */
+  margin-right: 5px;
+  max-width: 80px;
+  margin-left: 5px;
+}
+
+.gas-bid button {
+  flex-shrink: 0; /* Prevent the button from shrinking */
+  margin-left: 5px;
+}
+
+.block-select {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

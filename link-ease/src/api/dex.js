@@ -2,11 +2,13 @@ import * as crypto from 'crypto-js';
 import Blockchain from './blockchain/blockchain.js';
 
 const Transaction = require(`./blockchain/transaction`);
+const Account = require('./blockchain/account');
 
 export default class Dex {
   constructor() {
     this.blockchain = new Blockchain(`LinkEase`);
     this.orders = [];
+    this.node = new Account(`Node`, 0);
   }
 
   pushOrder(order) {
@@ -70,6 +72,9 @@ export default class Dex {
 
   matchOrders() {
     const market = new Map();
+    this.orders.sort((a, b) => {
+      return a.fee < b.fee ? 1 : -1;
+    });
     for (let i = 0; i < this.orders.length; ++i) {
       const order = this.orders[i];
       const source = order.blockChain1, dest = order.blockChain2;
