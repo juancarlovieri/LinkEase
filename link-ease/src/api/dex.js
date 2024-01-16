@@ -5,7 +5,7 @@ const Transaction = require(`./blockchain/transaction`);
 
 export default class Dex {
   constructor() {
-    this.blockchain = new Blockchain();
+    this.blockchain = new Blockchain(`LinkEase`);
     this.orders = [];
   }
 

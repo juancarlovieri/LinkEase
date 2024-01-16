@@ -1,3 +1,4 @@
+import { useReducer } from 'react';
 import Blockchain from './api/blockchain/blockchain';
 import Dex from './api/dex';
 
@@ -5,8 +6,9 @@ const Account = require('./api/blockchain/account');
 const Transaction = require('./api/blockchain/transaction');
 const DexAccount = require('./api/account');
 let orders = [];
+const dex = new Dex();
 
-const chains = [new Blockchain(`IndoCoin`), new Blockchain(`Slaycoin`), new Blockchain(`EusoffCoin`)];
+const chains = [new Blockchain(`IndoCoin`), new Blockchain(`Slaycoin`), new Blockchain(`EusoffCoin`), dex.blockchain];
 
 
 const users = [new DexAccount(`Ahmad`), new DexAccount(`Bob`), new DexAccount(`Oreo`), new DexAccount(`xaea12`)];
@@ -16,7 +18,6 @@ for (const user of users) {
   }
 }
 
-const dex = new Dex();
 let matching = true;
 
 if (sessionStorage.getItem(`orders`)) {
@@ -91,10 +92,14 @@ function getDexChain() {
       ret.push({id: 0, data: `Genesis Block.`, hash: blocks[i].hash});
       continue;
     }
+    if (blocks[i].data.type == 0) {
+      ret.push({id: i, data: `Transfer of ${blocks[i].data.value} from ${blocks[i].data.sourceAccount.owner} to ${blocks[i].data.destinationAccount.owner}`, hash: blocks[i].hash});
+      continue;
+    }
+    console.log(blocks[i].data.type)
     if (blocks[i].data.completed) ret.push({id: i, data: `${blocks[i].data.owner.name} completed order no.${blocks[i].data.id}`, hash: blocks[i].hash});
     else ret.push({id: i, data: `${blocks[i].data.owner.name} placed order no.${blocks[i].data.id}`, hash: blocks[i].hash});
   }
-  console.log(ret);
   return ret;
 }
 
@@ -102,6 +107,7 @@ function getBlockchains() {
   const ret = [];
   for (let i = 0; i < chains.length; ++i) {
     const chain = chains[i];
+    if (chain == dex.blockchain) continue;
 
     const res = [];
     for (const block of chain.chain) {
