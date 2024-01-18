@@ -10,9 +10,13 @@ const OrdersQueue = ({ orders }) => {
           orders.map(order => (
              (<div className="order-block">
               <h2>Order no. {order.id}</h2>
-              <p> Selling {order.amount1} {order.blockchain1.name}</p>
-              <p> Buying {order.amount2} {order.blockchain2.name}</p>
-              <p> Gas Fee: {order.fee} </p>
+              <p> <b>Owner: </b> {order.owner} </p>
+              <p> <b>To sell: </b>{order.amount1} {order.blockchain1.name}</p>
+              <p> <b>To buy: </b>{order.amount2} {order.blockchain2.name}</p>
+              <div className={`status ${order.completed === 'Completed' ? 'completed' : 'open'}`}>
+                {order.completed}
+              </div>
+              {/* <p> Gas Fee: {order.fee} </p> */}
             </div>)
           ))
         )}

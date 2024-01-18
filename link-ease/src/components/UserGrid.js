@@ -40,10 +40,10 @@ const ExchangeForm = ({ user, chains, exchange }) => {
         </select>
         <input type="number" value={amount2} onChange={(e) => setAmount2(e.target.value)} placeholder="Amount" />
       </div>
-      <div className="gas-bid">
+      {/* <div className="gas-bid">
         <label htmlFor={`bid-${user.id}`}>Gas Fee Bid:</label>
         <input type="number" id={`bid-${user.id}`} value={fee} onChange={(e) => setFee(e.target.value)} placeholder="Enter bid" />
-      </div>
+      </div> */}
       <button type="submit">Exchange</button>
       {showToast && (
         <Toast

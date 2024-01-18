@@ -30,10 +30,10 @@ class Order {
     if (account.getBalance() >= this.amount1) {
       account.debit(this.amount1);
 
-      const transaction = new Transaction(this.owner.getAccount(dex.blockchain), dex.node, this.fee);
-      transaction.lock();
+      // const transaction = new Transaction(this.owner.getAccount(dex.blockchain), dex.node, this.fee);
+      // transaction.lock();
 
-      dex.blockchain.processTransaction(transaction);
+      // dex.blockchain.processTransaction(transaction);
 
       this.locked = true;
     } else {

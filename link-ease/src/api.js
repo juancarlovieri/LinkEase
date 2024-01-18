@@ -8,10 +8,10 @@ const DexAccount = require('./api/account');
 let orders = [];
 const dex = new Dex();
 
-const chains = [dex.blockchain, new Blockchain(`IndoCoin`), new Blockchain(`Slaycoin`), new Blockchain(`EusoffCoin`)];
+const chains = [ new Blockchain(`Northcoin`), new Blockchain(`StarCredit`), new Blockchain(`TrustCoin`)];
 
 
-const users = [new DexAccount(`Ahmad`), new DexAccount(`Bob`), new DexAccount(`Oreo`), new DexAccount(`xaea12`)];
+const users = [new DexAccount(`Bank A`), new DexAccount(`Bank B`), new DexAccount(`Bank C`), new DexAccount(`Bank D`)];
 for (const user of users) {
   for (const chain of chains) {
     user.setAccount(chain, new Account(user.name, 100));
@@ -152,7 +152,8 @@ function getChains() {
 
 function getOrders() {
   while (matching);
-  return dex.orders.map(order => ({id: order.id, owner: order.owner, blockchain1: order.blockChain1, amount1: order.amount1, blockchain2: order.blockChain2, amount2: order.amount2, fee: order.fee}));
+  const ret = dex.orders.map(order => ({id: order.id, owner: order.owner, blockchain1: order.blockChain1, amount1: order.amount1, blockchain2: order.blockChain2, amount2: order.amount2, fee: order.fee, owner: order.owner.name, completed: "Open"}));
+  return ret.concat(dex.completed.map(order => ({id: order.id, owner: order.owner, blockchain1: order.blockChain1, amount1: order.amount1, blockchain2: order.blockChain2, amount2: order.amount2, fee: order.fee, owner: order.owner.name, completed: "Completed"})));
 }
 
 export {getDexChain, getBlockchains, getUsers, getChains, exchange, getOrders};

@@ -18,8 +18,11 @@ function App() {
 console.log(BlockchainView);
 return (
     <div className="app">
+      <header className="header">
+        <h1>LinkEase: The DEX Solution for Private Blockchains</h1>
+      </header>
       <UserGrid users={getUsers()} chains={getChains()} exchange={exchange} />
-      <h1>Current Offers</h1>
+      <h1>Order Book</h1>
       <OrdersQueue orders={getOrders()} />
       <h1>Blockchain Representation</h1>
       <BlockchainView blocks={getDexChain()} name={"LinkEase"} />

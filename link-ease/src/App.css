@@ -254,3 +254,20 @@ a:hover {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.status {
+  padding: 0.25em 0.75em;
+  border-radius: 0.5em;
+  color: #fff;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.open {
+  background-color: #28a745; /* Green background */
+}
+
+.completed {
+  background-color: #dc3545; /* Red background */
+}
